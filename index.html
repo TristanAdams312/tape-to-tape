@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tape to Tape</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --ice: #dff0f7;
+      --red: #1a6fbe;
+      --red-dark: #0f4f8a;
+      --gold: #f4c430;
+      --gray: #1e1e1e;
+      --gray-mid: #2e2e2e;
+      --gray-light: #555;
+      --text-muted: #999;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: 3px solid var(--red);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    .logo span {
+      color: var(--red);
+    }
+
+    nav { display: flex; gap: 2rem; align-items: center; }
+
+    nav a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    nav a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 6px 16px;
+      border-radius: 3px;
+    }
+
+    .nav-cta:hover { background: var(--red-dark); color: var(--white) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      background: var(--black);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 79px,
+          rgba(255,255,255,0.03) 79px,
+          rgba(255,255,255,0.03) 80px
+        );
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(4rem, 12vw, 9rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 0.9;
+      color: var(--white);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-line {
+      width: 80px;
+      height: 4px;
+      background: var(--red);
+      margin: 2rem auto 0;
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--red);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 8px 0;
+      position: relative;
+    }
+
+    .ticker-track {
+      display: inline-block;
+      animation: ticker 28s linear infinite;
+    }
+
+    .ticker-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin: 0 3rem;
+    }
+
+    .ticker-dot {
+      color: rgba(255,255,255,0.5);
+      margin: 0 0.25rem;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-mid);
+    }
+
+    /* ── FEATURED POST ── */
+    .featured-section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--gray-mid);
+      background: var(--gray);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .featured-card:hover { border-color: var(--red); }
+
+    .featured-img {
+      background: var(--gray-mid);
+      min-height: 380px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .featured-img-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/jack-hughes.png') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .featured-img-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.05) 100%);
+    }
+
+    .jersey-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 14rem;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      user-select: none;
+      position: absolute;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .featured-content {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .post-meta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .post-meta span {
+      color: var(--red);
+    }
+
+    .featured-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      margin-bottom: 1rem;
+    }
+
+    .featured-excerpt {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      transition: gap 0.15s;
+    }
+
+    .read-more:hover { gap: 14px; }
+
+    .read-more-arrow {
+      display: inline-block;
+      font-size: 1rem;
+    }
+
+    /* ── POST GRID ── */
+    .posts-section {
+      padding: 0 2rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      border: 1px solid var(--gray-mid);
+      background: var(--gray);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .post-card:hover {
+      border-color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    .card-img {
+      height: 180px;
+      background: var(--gray-mid);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .card-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 7rem;
+      color: rgba(255,255,255,0.05);
+      line-height: 1;
+      position: relative;
+    }
+
+    .card-category {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: rgba(0,0,0,0.75);
+      color: var(--gold);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-meta {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      line-height: 1.15;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      flex: 1;
+    }
+
+    .card-read {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--gray-mid);
+      margin: 0 auto 3rem;
+      max-width: 1200px;
+      padding: 0 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px solid var(--red);
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-logo span { color: var(--red); }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .featured-card { grid-template-columns: 1fr; }
+      .featured-img { min-height: 220px; }
+      .posts-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 4.5rem; }
+      .posts-grid { grid-template-columns: 1fr; }
+      nav a:not(.nav-cta) { display: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a class="logo" href="index.html">Tape<span>&nbsp;to&nbsp;</span>Tape</a>
+    <nav>
+      <a href="#posts">Posts</a>
+      <a href="about.html">About</a>
+      <a href="#posts" class="nav-cta">Read Now</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">NHL Analysis &amp; Opinion</p>
+    <h1 class="hero-title">Tape<br><em>to</em><br>Tape</h1>
+    <p class="hero-sub">Hard-hitting takes on the league. Weekly breakdowns, trade talk, and the stories no one else is writing.</p>
+    <div class="hero-line"></div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track" id="ticker">
+      <span class="ticker-item">Trade Deadline Fallout <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Stanley Cup Race Heats Up <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Power Play Breakdowns <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Goalie Starts Under the Microscope <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Western Wild Card Watch <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Trade Deadline Fallout <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Stanley Cup Race Heats Up <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Power Play Breakdowns <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Goalie Starts Under the Microscope <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Western Wild Card Watch <span class="ticker-dot">●</span></span>
+    </div>
+  </div>
+
+  <!-- FEATURED POST -->
+  <section class="featured-section">
+    <p class="section-label">Featured</p>
+    <a class="featured-card" href="posts/post-1.html">
+      <div class="featured-img">
+        <div class="featured-img-bg"></div>
+        <span class="featured-badge">&#9733; Editor's Pick</span>
+      </div>
+      <div class="featured-content">
+        <p class="post-meta"><span>Olympic Hockey Recap</span> &nbsp;·&nbsp; February 22, 2026</p>
+        <h2 class="featured-title">America is Back on Top of the Hockey World</h2>
+        <p class="featured-excerpt">Connor Hellebuyck stood on his head, Matt Boldy pulled off a ridiculous breakaway finish, and Jack Hughes scored the golden goal in overtime to give the United States their first Olympic Hockey Gold in 46 years.</p>
+        <span class="read-more">Read the full breakdown <span class="read-more-arrow">→</span></span>
+      </div>
+    </a>
+  </section>
+
+  <!-- POST GRID -->
+  <section class="posts-section">
+    <p class="section-label">Latest Posts</p>
+    <div class="posts-grid" id="posts">
+
+      <a class="post-card" href="posts/post-2.html">
+        <div class="card-img">
+          <div class="card-img-bg" style="background: linear-gradient(135deg,#111,#1a1a1a);"></div>
+          <span class="card-number">04</span>
+          <span class="card-category">Trade Talk</span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Week 2</p>
+          <h3 class="card-title">Post Title Placeholder — Trade Deadline Reactions</h3>
+          <span class="card-read">Read More →</span>
+        </div>
+      </a>
+
+      <a class="post-card" href="posts/post-3.html">
+        <div class="card-img">
+          <div class="card-img-bg" style="background: linear-gradient(135deg,#0d1117,#1a1a2e);"></div>
+          <span class="card-number">11</span>
+          <span class="card-category">Power Rankings</span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Week 3</p>
+          <h3 class="card-title">Post Title Placeholder — Mid-Season Power Rankings</h3>
+          <span class="card-read">Read More →</span>
+        </div>
+      </a>
+
+      <a class="post-card" href="posts/post-4.html">
+        <div class="card-img">
+          <div class="card-img-bg" style="background: linear-gradient(135deg,#110808,#1e1010);"></div>
+          <span class="card-number">29</span>
+          <span class="card-category">Goaltending</span>
+        </div>
+        <div class="card-body">
+          <p class="card-meta">Week 4</p>
+          <h3 class="card-title">Post Title Placeholder — The Crease Battle Nobody's Watching</h3>
+          <span class="card-read">Read More →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Tape <span>to</span> Tape</span>
+    <span class="footer-text">NHL Analysis &amp; Opinion &nbsp;·&nbsp; Built with &hearts; for hockey</span>
+  </footer>
+
+</body>
+</html>
